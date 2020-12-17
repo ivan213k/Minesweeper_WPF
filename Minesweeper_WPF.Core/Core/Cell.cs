@@ -8,7 +8,7 @@ namespace Minesweeper_WPF.Core
 
         public bool IsEmpty { get; private set; }
 
-        public byte? Number { get; private set; }
+        public byte? Number { get; set; }
 
         public Cell()
         {

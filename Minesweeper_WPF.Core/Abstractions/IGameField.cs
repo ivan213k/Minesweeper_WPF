@@ -3,11 +3,9 @@ namespace Minesweeper_WPF.Core.Abstractions
 {
     public interface IGameField
     {
-        int Columns { get; set; }
+        int Columns { get; }
 
-        int Rows { get; set; }
-
-        Cell[,] CellsMatrix { get; }
+        int Rows { get; }
 
         Cell GetCell(IPoint point);  
     }
