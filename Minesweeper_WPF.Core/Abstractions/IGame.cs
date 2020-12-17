@@ -1,16 +1,16 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Minesweeper_WPF.Core.Abstractions
 {
+    public delegate void GameWin();
+    public delegate void GameOver();
     public interface IGame
     {
-        event EventHandler OnGameOver;
+        event GameOver OnGameOver;
 
-        event EventHandler OnGameWin;
-        void Start();
-        void FinishGame();
-        void OpenCell(IPoint point);
+        event GameWin OnGameWin;
+        List<Cell> OpenCell(IPoint point);
         void MarkCellAsBomb(IPoint point);
-       
+        void RemoveBombMark(IPoint point);
     }
 }

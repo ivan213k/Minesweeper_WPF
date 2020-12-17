@@ -47,7 +47,7 @@ namespace Minesweeper_WPF.Core.Core
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    CellsMatrix[i, j] = new Cell();
+                    CellsMatrix[i, j] = new Cell(i, j);
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace Minesweeper_WPF.Core.Core
         }
         private void SetBomb(Point point)
         {
-            CellsMatrix[point.X, point.Y] = new Cell(isBomb:true);
+            CellsMatrix[point.X, point.Y] = new Cell(point.X, point.Y, isBomb:true);
         }
         private List<Point> GetRandomCoordinates(int count, int maxRow, int maxCol)
         {
@@ -108,6 +108,7 @@ namespace Minesweeper_WPF.Core.Core
                         else
                         {
                             CellsMatrix[i, j].Number = 1;
+                            CellsMatrix[i, j].IsEmpty = false;
                         }
                     }
                 }
