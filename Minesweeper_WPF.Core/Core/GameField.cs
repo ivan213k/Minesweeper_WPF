@@ -114,5 +114,48 @@ namespace Minesweeper_WPF.Core.Core
                 }
             }
         }
+
+        public List<Cell> GetEmptyCellsAround(IPoint point)
+        {
+            Queue<Cell> queueCellsAround = new Queue<Cell>();
+            List<Cell> cells = new List<Cell>();
+            queueCellsAround.Enqueue(CellsMatrix[point.X, point.Y]);
+
+            while (queueCellsAround.Count > 0)
+            {
+                var currentCell = queueCellsAround.Dequeue();
+                foreach (var cell in GetCellsAround(new Point(currentCell.RowIndex,currentCell.ColumnIndex)))
+                {
+                    if (!cells.Contains(cell))
+                    {
+                        cells.Add(cell);
+                        if (cell.IsEmpty)
+                        {
+                            queueCellsAround.Enqueue(cell);
+                        }
+                    }
+                }
+            }
+
+            return cells;
+        }
+        private List<Cell> GetCellsAround(IPoint point)
+        {
+            List<Cell> cells = new List<Cell>();
+            for (int i = point.X - 1; i <= point.X + 1; i++)
+                for (int j = point.Y - 1; j <= point.Y + 1; j++)
+                {
+                    if (i < 0 || j < 0 || i > Rows - 1 || j > Columns - 1)
+                    {
+                        continue;
+                    }
+                    if (i == point.X && j == point.Y)
+                    {
+                        continue;
+                    }
+                    cells.Add(CellsMatrix[i, j]);
+                }
+            return cells;
+        }
     }
 }

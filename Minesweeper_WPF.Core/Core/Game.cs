@@ -46,6 +46,10 @@ namespace Minesweeper_WPF.Core.Core
                 OnGameOver?.Invoke();
                 return cells;
             }
+            if (cell.IsEmpty)
+            {
+                cells.AddRange(gameField.GetEmptyCellsAround(new Point(cell.RowIndex, cell.ColumnIndex)));
+            }
             return cells;
         }
 

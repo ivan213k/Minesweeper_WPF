@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Minesweeper_WPF.Core.Abstractions
 {
     public interface IGameField
@@ -7,6 +9,8 @@ namespace Minesweeper_WPF.Core.Abstractions
 
         int Rows { get; }
 
-        Cell GetCell(IPoint point);  
+        Cell GetCell(IPoint point);
+
+        List<Cell> GetEmptyCellsAround(IPoint point);
     }
 }
