@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Minesweeper_WPF
 {
@@ -24,6 +25,8 @@ namespace Minesweeper_WPF
         int cols = 9;
 
         Button[,] buttonsMatrix;
+        DispatcherTimer timer;
+        public int time = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +37,10 @@ namespace Minesweeper_WPF
         {
             InitializeButtonsMatrix();
             InitializeGrid();
+            timer = new DispatcherTimer();
+            timer.Tick += timerTick;
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Start();
         }
         private void InitializeGrid()
         {
@@ -85,6 +92,10 @@ namespace Minesweeper_WPF
         private void menuItemExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void timerTick(object sender, EventArgs e)
+        {
+            Timer.Text = time++.ToString();
         }
     }
 }
