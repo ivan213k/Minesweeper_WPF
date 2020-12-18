@@ -2,7 +2,7 @@
 
 namespace Minesweeper_WPF.Core.Core
 {
-    class GameConfiguration : IGameConfiguration
+    public class GameConfiguration : IGameConfiguration
     {
         public int Rows { get; set; }
         public int Columns { get; set; }

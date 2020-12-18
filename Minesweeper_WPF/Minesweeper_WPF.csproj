@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\CellToImageConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
@@ -96,9 +97,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\bomb.png" />
     <Resource Include="Resources\bombed.png" />
@@ -119,6 +118,12 @@
     <Resource Include="Resources\opened.png" />
     <Resource Include="Resources\Timer.png" />
     <Resource Include="Resources\zero.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Minesweeper_WPF.Core\Minesweeper_WPF.Core.csproj">
+      <Project>{a0453de6-6f18-4b96-be01-9cb52df94437}</Project>
+      <Name>Minesweeper_WPF.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

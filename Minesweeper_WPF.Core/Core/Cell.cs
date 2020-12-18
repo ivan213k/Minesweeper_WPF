@@ -38,5 +38,18 @@ namespace Minesweeper_WPF.Core
                 throw new ArgumentException("number can not be more then 8 and less then 1");
             }       
         }
+
+        public override string ToString()
+        {
+            if (IsEmpty)
+            {
+                return "empty";
+            }
+            if (IsBomb)
+            {
+                return "bomb";
+            }
+            return Number.ToString();
+        }
     }
 }

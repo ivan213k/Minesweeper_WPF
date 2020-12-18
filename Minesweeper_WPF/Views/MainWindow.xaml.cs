@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using Minesweeper_WPF.Core.Abstractions;
+using Minesweeper_WPF.Core.Core;
+using Minesweeper_WPF.Models;
+using Point = Minesweeper_WPF.Core.Core.Point;
 
 namespace Minesweeper_WPF
 {
@@ -21,15 +15,21 @@ namespace Minesweeper_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        int rows = 9;
-        int cols = 9;
+        int rows;
+        int cols;
+        IGameConfiguration gameConfiguration;
+        IGame Game;
 
         Button[,] buttonsMatrix;
         DispatcherTimer timer;
         public int time = 0;
+        private CellToImageConverter cellToImageConverter = new CellToImageConverter();
         public MainWindow()
         {
             InitializeComponent();
+            gameConfiguration = new GameConfiguration();
+            rows = gameConfiguration.Rows;
+            cols = gameConfiguration.Columns;
             buttonsMatrix = new Button[rows, cols];
         }
 
@@ -37,10 +37,21 @@ namespace Minesweeper_WPF
         {
             InitializeButtonsMatrix();
             InitializeGrid();
+            Game = new Game(gameConfiguration);
+            Game.OnGameWin += OnGameWin;
+            Game.OnGameOver += OnGameOver;
             timer = new DispatcherTimer();
             timer.Tick += timerTick;
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Start();
+        }
+        private void OnGameWin()
+        {
+            MessageBox.Show("Win!");
+        }
+        private void OnGameOver()
+        {
+            MessageBox.Show("Game Over");
         }
         private void InitializeGrid()
         {
@@ -68,7 +79,40 @@ namespace Minesweeper_WPF
                 {
                     buttonsMatrix[i, j] = new Button();
                     buttonsMatrix[i, j].Name = "Button" + "row" + i + "col" + j;
+                    buttonsMatrix[i, j].Click += ButtonLeftClick;
+                    buttonsMatrix[i, j].MouseRightButtonUp += ButtonRightClick;
                 }
+        }
+
+        private void ButtonRightClick(object sender, MouseButtonEventArgs e)
+        {
+            Button button = sender as Button;
+            if (button.Tag?.ToString() == "marked")
+            {
+                button.Content = "";
+                Game.RemoveBombMark(ParseButtonCoordinates(button));
+            }
+            else
+            {
+                button.Tag = "marked";
+                button.Content = cellToImageConverter.GetFlaggedImage();
+                Game.MarkCellAsBomb(ParseButtonCoordinates(sender as Button));
+            }      
+        }
+
+        void ButtonLeftClick(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            var point = ParseButtonCoordinates(button);
+            if (button.Tag?.ToString()=="flaged")
+            {
+                Game.RemoveBombMark(point);
+            }
+            var cellsShouldBeOpened = Game.OpenCell(point);
+            foreach (var cell in cellsShouldBeOpened)
+            {
+                buttonsMatrix[cell.RowIndex, cell.ColumnIndex].Content = cellToImageConverter.ConvertToImage(cell);
+            }
         }
         private ColumnDefinition[] CreateColsDefinitions(int count)
         {
@@ -96,6 +140,12 @@ namespace Minesweeper_WPF
         private void timerTick(object sender, EventArgs e)
         {
             Timer.Text = time++.ToString();
+        }
+        private Point ParseButtonCoordinates(Button button)
+        {
+            int i = int.Parse(button.Name.Substring(button.Name.IndexOf("row") + 3, button.Name.IndexOf("col") - (button.Name.IndexOf("row") + 3)));
+            int j = int.Parse(button.Name.Substring(button.Name.IndexOf("col") + 3));
+            return new Point(i, j);
         }
     }
 }
