@@ -99,5 +99,26 @@
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bomb.png" />
+    <Resource Include="Resources\bombed.png" />
+    <Resource Include="Resources\closed.png" />
+    <Resource Include="Resources\flaged.png" />
+    <Resource Include="Resources\icon.png" />
+    <Resource Include="Resources\inform.png" />
+    <Resource Include="Resources\mine.ico" />
+    <Resource Include="Resources\nobomb.png" />
+    <Resource Include="Resources\num1.png" />
+    <Resource Include="Resources\num2.png" />
+    <Resource Include="Resources\num3.png" />
+    <Resource Include="Resources\num4.png" />
+    <Resource Include="Resources\num5.png" />
+    <Resource Include="Resources\num6.png" />
+    <Resource Include="Resources\num7.png" />
+    <Resource Include="Resources\num8.png" />
+    <Resource Include="Resources\opened.png" />
+    <Resource Include="Resources\Timer.png" />
+    <Resource Include="Resources\zero.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

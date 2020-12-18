@@ -5,8 +5,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Minesweeper_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Сапер" Height="570" Width="500" Loaded="Window_Loaded" Icon="/Resources/icon.png">
+    <Window.Resources>
+        <Style TargetType="MenuItem">
+            <Setter Property="Foreground" Value="#FFFDFBFB" />
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFA3E096" Offset="0"/>
+                        <GradientStop Color="#FF276C59" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="15,0,0,0"/>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFBD9F9F" Offset="0"/>
+                        <GradientStop Color="#FFF9F3F3" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
-    
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <Menu>
+                    <Menu.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FFA3E096" Offset="1"/>
+                            <GradientStop Color="#FF276C59"/>
+                        </RadialGradientBrush>
+                    </Menu.Background>
+                    <MenuItem Header="Гра" Margin="5 0 5 0" FontWeight="Bold" Background="Transparent">
+                        <MenuItem Header="Нова гра" FontWeight="Normal"></MenuItem>
+                        <MenuItem Name="menuItemExit" Click="menuItemExit_Click" Header="Вихід" FontWeight="Normal"></MenuItem>
+                    </MenuItem>
+                    <MenuItem Header="Статистика" FontWeight="Bold"></MenuItem>
+                    <MenuItem Header="Параметри" FontWeight="Bold"></MenuItem>
+
+                    <MenuItem Header="Довідка" Margin="5 0 5 0" FontWeight="Bold" Background="Transparent">
+                        <MenuItem Header="Правила гри"></MenuItem>
+                        <MenuItem Header="Про програму"></MenuItem>
+                    </MenuItem>
+                </Menu>
+                <StackPanel Height="50">
+                    <StackPanel.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFBBF5BD" Offset="0"/>
+                            <GradientStop Color="#FF276C59" Offset="1"/>
+                        </LinearGradientBrush>
+                    </StackPanel.Background>
+                    <Grid Height="48" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" FlowDirection="RightToLeft">
+                            <TextBlock x:Name="Timer">0</TextBlock>
+                            <Image Source="/Resources/Timer.png" Width="51" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Image Source="/Resources/icon.png" Width="51" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,0,0,0"/>
+                            <TextBlock Name="CountBomb">10</TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                </StackPanel>
+            </StackPanel>
+            <Border  Grid.Row="1" Name="Parent"  BorderThickness="30">
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFA3E096"/>
+                        <GradientStop Color="#FF276C59" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+
+                <Grid Name="GridField">
+
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
