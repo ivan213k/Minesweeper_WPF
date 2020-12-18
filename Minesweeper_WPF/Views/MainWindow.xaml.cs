@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Minesweeper_WPF.Core.Abstractions;
 using Minesweeper_WPF.Core.Core;
@@ -21,9 +22,11 @@ namespace Minesweeper_WPF
         IGame Game;
 
         Button[,] buttonsMatrix;
-        DispatcherTimer timer;
+        DispatcherTimer timer = new DispatcherTimer();
         public int time = 0;
         private CellToImageConverter cellToImageConverter = new CellToImageConverter();
+
+        int unmarkedBombsCount;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,27 +34,25 @@ namespace Minesweeper_WPF
             rows = gameConfiguration.Rows;
             cols = gameConfiguration.Columns;
             buttonsMatrix = new Button[rows, cols];
+            timer.Tick += timerTick;
+            timer.Interval = new TimeSpan(0, 0, 1);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeButtonsMatrix();
-            InitializeGrid();
-            Game = new Game(gameConfiguration);
-            Game.OnGameWin += OnGameWin;
-            Game.OnGameOver += OnGameOver;
-            timer = new DispatcherTimer();
-            timer.Tick += timerTick;
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+            NewGame();
         }
         private void OnGameWin()
         {
+            timer.Stop();
             MessageBox.Show("Win!");
+            NewGame();
         }
         private void OnGameOver()
         {
+            timer.Stop();
             MessageBox.Show("Game Over");
+            NewGame();
         }
         private void InitializeGrid()
         {
@@ -79,6 +80,7 @@ namespace Minesweeper_WPF
                 {
                     buttonsMatrix[i, j] = new Button();
                     buttonsMatrix[i, j].Name = "Button" + "row" + i + "col" + j;
+                    buttonsMatrix[i, j].Background = new SolidColorBrush(Color.FromRgb(141, 163, 153));
                     buttonsMatrix[i, j].Click += ButtonLeftClick;
                     buttonsMatrix[i, j].MouseRightButtonUp += ButtonRightClick;
                 }
@@ -89,23 +91,28 @@ namespace Minesweeper_WPF
             Button button = sender as Button;
             if (button.Tag?.ToString() == "marked")
             {
+                IncrementUnmarkedBombsCount();
+                button.Tag = "";
                 button.Content = "";
                 Game.RemoveBombMark(ParseButtonCoordinates(button));
             }
             else
             {
+                DecrementUnmarkedBombsCount();
                 button.Tag = "marked";
                 button.Content = cellToImageConverter.GetFlaggedImage();
                 Game.MarkCellAsBomb(ParseButtonCoordinates(sender as Button));
-            }      
+            }
         }
 
         void ButtonLeftClick(object sender, EventArgs e)
         {
             var button = sender as Button;
             var point = ParseButtonCoordinates(button);
-            if (button.Tag?.ToString()=="flaged")
+            if (button.Tag?.ToString()=="marked")
             {
+                IncrementUnmarkedBombsCount();
+                button.Tag = "";
                 Game.RemoveBombMark(point);
             }
             var cellsShouldBeOpened = Game.OpenCell(point);
@@ -113,6 +120,7 @@ namespace Minesweeper_WPF
             {
                 buttonsMatrix[cell.RowIndex, cell.ColumnIndex].Content = cellToImageConverter.ConvertToImage(cell);
             }
+            CountBomb.Text = unmarkedBombsCount.ToString();
         }
         private ColumnDefinition[] CreateColsDefinitions(int count)
         {
@@ -141,11 +149,40 @@ namespace Minesweeper_WPF
         {
             Timer.Text = time++.ToString();
         }
+        private void IncrementUnmarkedBombsCount()
+        {
+            unmarkedBombsCount++;
+            CountBomb.Text = unmarkedBombsCount.ToString();
+        }
+        private void DecrementUnmarkedBombsCount()
+        {
+            unmarkedBombsCount--;
+            CountBomb.Text = unmarkedBombsCount.ToString();
+        }
         private Point ParseButtonCoordinates(Button button)
         {
             int i = int.Parse(button.Name.Substring(button.Name.IndexOf("row") + 3, button.Name.IndexOf("col") - (button.Name.IndexOf("row") + 3)));
             int j = int.Parse(button.Name.Substring(button.Name.IndexOf("col") + 3));
             return new Point(i, j);
+        }
+        private void NewGame()
+        {
+            time = 0;
+            CountBomb.Text = gameConfiguration.BombsCount.ToString();
+            unmarkedBombsCount = gameConfiguration.BombsCount;
+            Game = new Game(gameConfiguration);
+            Game.OnGameWin += OnGameWin;
+            Game.OnGameOver += OnGameOver;
+            InitializeButtonsMatrix();
+            GridField = new Grid();
+            this.Parent.Child = GridField;
+            InitializeGrid();
+            timer.Start();
+        }
+
+        private void menuItemNewGame_Click(object sender, RoutedEventArgs e)
+        {
+            NewGame();
         }
     }
 }
