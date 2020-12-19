@@ -1,0 +1,12 @@
+﻿<Window x:Class="Minesweeper_WPF.Views.AboutGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minesweeper_WPF.Views"
+        mc:Ignorable="d"
+        Title="Про програму" ResizeMode="NoResize" Height="82.031" Width="244.922">
+    <Grid Background="Green">
+        <TextBlock Foreground="White" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center">Designed by 421_Team</TextBlock>
+    </Grid>
+</Window>

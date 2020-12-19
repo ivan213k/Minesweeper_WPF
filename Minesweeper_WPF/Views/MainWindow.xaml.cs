@@ -204,5 +204,17 @@ namespace Minesweeper_WPF
         {
             NewGame();
         }
+
+        private void menuItemGameRules_Click(object sender, RoutedEventArgs e)
+        {
+            GameRulesWindow gameRulesWindow = new GameRulesWindow();
+            gameRulesWindow.Show();
+        }
+
+        private void menuItemAboutGame_Click(object sender, RoutedEventArgs e)
+        {
+            AboutGameWindow aboutGameWindow = new AboutGameWindow();
+            aboutGameWindow.ShowDialog();
+        }
     }
 }

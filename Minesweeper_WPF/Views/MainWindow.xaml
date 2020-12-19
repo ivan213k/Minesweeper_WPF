@@ -56,8 +56,8 @@
                     <MenuItem Header="Параметри" FontWeight="Bold" Background="Transparent"></MenuItem>
 
                     <MenuItem Header="Довідка" Margin="5 0 5 0" FontWeight="Bold" Background="Transparent">
-                        <MenuItem Header="Правила гри"></MenuItem>
-                        <MenuItem Header="Про програму"></MenuItem>
+                        <MenuItem Name="menuItemGameRules" Click="menuItemGameRules_Click" Header="Правила гри"></MenuItem>
+                        <MenuItem Name="menuItemAboutGame" Click="menuItemAboutGame_Click" Header="Про програму"></MenuItem>
                     </MenuItem>
                 </Menu>
                 <StackPanel Height="50">
