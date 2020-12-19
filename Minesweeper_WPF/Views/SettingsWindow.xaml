@@ -1,0 +1,119 @@
+﻿<Window x:Class="Minesweeper_WPF.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minesweeper_WPF.Views" xmlns:viewmodels="clr-namespace:Minesweeper_WPF.ViewModels"
+        mc:Ignorable="d"
+        Title="Параметри" Name="window" WindowStartupLocation="CenterScreen" Icon="/Resources/icon.png" ResizeMode="NoResize" Height="300" Width="300" Foreground="Black">
+    <Window.DataContext>
+        <viewmodels:SettingsViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style TargetType="RadioButton" >
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="TextBox.Margin" Value="1 5"/>
+            <Setter Property="TextBox.Foreground" Value="#FFF4F4F4"/>
+            <Setter Property="TextBox.CaretBrush" Value="#FFF7F3F3" />
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="BorderBrush" Value="White"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Foreground" Value="#FFF9F9F9"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FF3D8064" Offset="0"/>
+                        <GradientStop Color="#FFA1DE95" Offset="1"/>
+                    </RadialGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFA3E096" Offset="0"/>
+                <GradientStop Color="#FF276C59" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <ListView Background="Transparent" SelectedItem="{Binding SelectedConfiguration,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" Width="155" HorizontalAlignment="Left" ItemsSource="{Binding GameConfigurations}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton Click="RadioButton_Click" VerticalContentAlignment="Center" Width="130" VerticalAlignment="Center" GroupName="configs">
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Foreground="White" FontWeight="Bold" Text="{Binding Rows, StringFormat={}Рядків:{0}}"/>
+                                <TextBlock Foreground="White" FontWeight="Bold" Text="{Binding Columns, StringFormat={}Стовпців: {0}}"/>
+                                <TextBlock Foreground="White" FontWeight="Bold" Text="{Binding BombsCount, StringFormat={}Бомб: {0}}"/>
+                            </StackPanel>
+                        </Grid>
+                    </RadioButton>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Grid.Column="1">
+            <RadioButton IsChecked="{Binding IsSpecialConfigurationSelected,Mode=OneWayToSource}" Name="radioButtoSpecialField" GroupName="configs">
+                <StackPanel>
+                    <TextBlock>Особливе поле</TextBlock>
+                    <TextBlock Text="Кількість рядків:"/>
+                    <TextBox IsEnabled="{Binding ElementName=radioButtoSpecialField,Path=IsChecked}" Background="Transparent">
+                        <TextBox.Text>
+                            <Binding Path="Rows" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <ExceptionValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBlock Text="Кількість стовпців:"/>
+                    <TextBox IsEnabled="{Binding ElementName=radioButtoSpecialField,Path=IsChecked}" Background="Transparent">
+                        <TextBox.Text>
+                            <Binding Path="Rows" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <ExceptionValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBlock Text="Кількість бомб:"/>
+                    <TextBox IsEnabled="{Binding ElementName=radioButtoSpecialField,Path=IsChecked}" Background="Transparent">
+                        <TextBox.Text>
+                            <Binding Path="Rows" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <ExceptionValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                </StackPanel>
+            </RadioButton>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <Button Command="{Binding ApplyCommand}" CommandParameter="{Binding ElementName=window}" >Застосувати</Button>
+            <Button Click="Button_Click"> Скасувати</Button>
+        </StackPanel>
+    </Grid>
+</Window>

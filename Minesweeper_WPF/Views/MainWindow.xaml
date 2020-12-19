@@ -53,7 +53,7 @@
                         <MenuItem Name="menuItemExit" Click="menuItemExit_Click" Header="Вихід" FontWeight="Normal"></MenuItem>
                     </MenuItem>
                     <MenuItem Header="Статистика" FontWeight="Bold" Background="Transparent"></MenuItem>
-                    <MenuItem Header="Параметри" FontWeight="Bold" Background="Transparent"></MenuItem>
+                    <MenuItem Name="menuItemSettings" Click="menuItemSettings_Click" Header="Параметри" FontWeight="Bold" Background="Transparent"></MenuItem>
 
                     <MenuItem Header="Довідка" Margin="5 0 5 0" FontWeight="Bold" Background="Transparent">
                         <MenuItem Name="menuItemGameRules" Click="menuItemGameRules_Click" Header="Правила гри"></MenuItem>

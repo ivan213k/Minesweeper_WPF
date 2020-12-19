@@ -193,6 +193,9 @@ namespace Minesweeper_WPF
             Game = new Game(gameConfiguration);
             Game.OnGameWin += OnGameWin;
             Game.OnGameOver += OnGameOver;
+            rows = gameConfiguration.Rows;
+            cols = gameConfiguration.Columns;
+            buttonsMatrix = new Button[rows, cols];
             InitializeButtonsMatrix();
             GridField = new Grid();
             this.Parent.Child = GridField;
@@ -215,6 +218,17 @@ namespace Minesweeper_WPF
         {
             AboutGameWindow aboutGameWindow = new AboutGameWindow();
             aboutGameWindow.ShowDialog();
+        }
+
+        private void menuItemSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            if (settingsWindow.ShowDialog()==true)
+            {
+                var vm = settingsWindow.DataContext as SettingsViewModel;
+                gameConfiguration = vm.SelectedConfiguration;
+                NewGame();
+            }        
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Minesweeper_WPF.ViewModels
 {
-    abstract class Command : ICommand
+     class Command : ICommand
     {
         public event EventHandler CanExecuteChanged;
         private readonly Action<object> execute;
