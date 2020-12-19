@@ -7,6 +7,8 @@ using System.Windows.Threading;
 using Minesweeper_WPF.Core.Abstractions;
 using Minesweeper_WPF.Core.Core;
 using Minesweeper_WPF.Models;
+using Minesweeper_WPF.ViewModels;
+using Minesweeper_WPF.Views;
 using Point = Minesweeper_WPF.Core.Core.Point;
 
 namespace Minesweeper_WPF
@@ -45,14 +47,30 @@ namespace Minesweeper_WPF
         private void OnGameWin()
         {
             timer.Stop();
-            MessageBox.Show("Win!");
-            NewGame();
+            GameOverWindow gameOverWindow = new GameOverWindow();
+            gameOverWindow.DataContext = new GameOverViewModel(isGameWin:true);
+            if (gameOverWindow.ShowDialog() == true)
+            {
+                this.Close();
+            }
+            else
+            {
+                NewGame();
+            }
         }
         private void OnGameOver()
         {
             timer.Stop();
-            MessageBox.Show("Game Over");
-            NewGame();
+            GameOverWindow gameOverWindow = new GameOverWindow();
+            gameOverWindow.DataContext = new GameOverViewModel();
+            if (gameOverWindow.ShowDialog() == true)
+            {
+                this.Close();
+            }
+            else
+            {
+                NewGame();
+            }
         }
         private void InitializeGrid()
         {
