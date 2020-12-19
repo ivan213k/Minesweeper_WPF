@@ -3,7 +3,7 @@
 namespace Minesweeper_WPF.Core.Abstractions
 {
     public delegate void GameWin();
-    public delegate void GameOver();
+    public delegate void GameOver(Cell bombedCell);
     public interface IGame
     {
         event GameOver OnGameOver;

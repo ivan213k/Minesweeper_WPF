@@ -40,12 +40,12 @@ namespace Minesweeper_WPF.Core.Core
         {
             var cell = gameField.GetCell(point);
             var cells = new List<Cell>();
-            cells.Add(cell);
             if (cell.IsBomb)
             {
-                OnGameOver?.Invoke();
+                OnGameOver?.Invoke(cell);
                 return cells;
             }
+            cells.Add(cell);
             if (cell.IsEmpty)
             {
                 cells.AddRange(gameField.GetEmptyCellsAround(new Point(cell.RowIndex, cell.ColumnIndex)));

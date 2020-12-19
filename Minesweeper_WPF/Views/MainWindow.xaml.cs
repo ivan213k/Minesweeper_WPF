@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Minesweeper_WPF.Core;
 using Minesweeper_WPF.Core.Abstractions;
 using Minesweeper_WPF.Core.Core;
 using Minesweeper_WPF.Models;
@@ -58,9 +59,10 @@ namespace Minesweeper_WPF
                 NewGame();
             }
         }
-        private void OnGameOver()
+        private void OnGameOver(Cell bombedCell)
         {
             timer.Stop();
+            buttonsMatrix[bombedCell.RowIndex, bombedCell.ColumnIndex].Content = cellToImageConverter.ConvertToImage(bombedCell);
             GameOverWindow gameOverWindow = new GameOverWindow();
             gameOverWindow.DataContext = new GameOverViewModel();
             if (gameOverWindow.ShowDialog() == true)
