@@ -52,7 +52,7 @@
                         <MenuItem Name="menuItemNewGame" Click="menuItemNewGame_Click" Header="Нова гра" FontWeight="Normal"></MenuItem>
                         <MenuItem Name="menuItemExit" Click="menuItemExit_Click" Header="Вихід" FontWeight="Normal"></MenuItem>
                     </MenuItem>
-                    <MenuItem Header="Статистика" FontWeight="Bold" Background="Transparent"></MenuItem>
+                    <MenuItem Name="menuItemStatistic" Click="menuItemStatistic_Click" Header="Статистика" FontWeight="Bold" Background="Transparent"></MenuItem>
                     <MenuItem Name="menuItemSettings" Click="menuItemSettings_Click" Header="Параметри" FontWeight="Bold" Background="Transparent"></MenuItem>
 
                     <MenuItem Header="Довідка" Margin="5 0 5 0" FontWeight="Bold" Background="Transparent">

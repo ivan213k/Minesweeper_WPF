@@ -230,5 +230,11 @@ namespace Minesweeper_WPF
                 NewGame();
             }        
         }
+
+        private void menuItemStatistic_Click(object sender, RoutedEventArgs e)
+        {
+            StatisticWindow statisticWindow = new StatisticWindow();
+            statisticWindow.ShowDialog();
+        }
     }
 }
