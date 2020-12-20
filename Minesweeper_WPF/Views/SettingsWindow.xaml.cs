@@ -29,9 +29,10 @@ namespace Minesweeper_WPF.Views
             Close();
         }
 
-        private void RadioButton_Click(object sender, RoutedEventArgs e)
+
+        private void ListView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            
+            radioButtoSpecialField.IsChecked = false;
         }
     }
 }

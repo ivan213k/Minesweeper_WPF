@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Minesweeper_WPF.Views" xmlns:viewmodels="clr-namespace:Minesweeper_WPF.ViewModels"
         mc:Ignorable="d"
-        Title="Параметри" Name="window" WindowStartupLocation="CenterScreen" Icon="/Resources/icon.png" ResizeMode="NoResize" Height="300" Width="300" Foreground="Black">
+        Title="Параметри" Name="window" WindowStartupLocation="CenterScreen" Icon="/Resources/icon.png" ResizeMode="NoResize" Height="300" Width="404" Foreground="Black">
     <Window.DataContext>
         <viewmodels:SettingsViewModel/>
     </Window.DataContext>
@@ -15,6 +15,8 @@
         </Style>
         <Style TargetType="RadioButton" >
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="TextBox.Margin" Value="1 5"/>
@@ -27,6 +29,8 @@
         </Style>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="#FFF9F9F9"/>
             <Setter Property="Background">
                 <Setter.Value>
@@ -40,7 +44,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -53,7 +57,7 @@
                 <GradientStop Color="#FF276C59" Offset="1"/>
             </LinearGradientBrush>
         </Grid.Background>
-        <ListView Background="Transparent" SelectedItem="{Binding SelectedConfiguration,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" Width="155" HorizontalAlignment="Left" ItemsSource="{Binding GameConfigurations}">
+        <ListView SelectionMode="Single" MouseLeftButtonUp="ListView_MouseLeftButtonUp" Background="Transparent" SelectedItem="{Binding SelectedConfiguration,Mode=OneWayToSource,UpdateSourceTrigger=PropertyChanged}" Width="155" HorizontalAlignment="Left" ItemsSource="{Binding GameConfigurations}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -62,15 +66,15 @@
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <RadioButton Click="RadioButton_Click" VerticalContentAlignment="Center" Width="130" VerticalAlignment="Center" GroupName="configs">
+                    <!--<RadioButton Click="RadioButton_Click" VerticalContentAlignment="Center" Width="130" VerticalAlignment="Center" GroupName="configs">-->
                         <Grid>
-                            <StackPanel>
+                            <StackPanel Margin="5">
                                 <TextBlock Foreground="White" FontWeight="Bold" Text="{Binding Rows, StringFormat={}Рядків:{0}}"/>
                                 <TextBlock Foreground="White" FontWeight="Bold" Text="{Binding Columns, StringFormat={}Стовпців: {0}}"/>
                                 <TextBlock Foreground="White" FontWeight="Bold" Text="{Binding BombsCount, StringFormat={}Бомб: {0}}"/>
                             </StackPanel>
                         </Grid>
-                    </RadioButton>
+                    <!--</RadioButton>-->
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
@@ -78,7 +82,7 @@
             <RadioButton IsChecked="{Binding IsSpecialConfigurationSelected,Mode=OneWayToSource}" Name="radioButtoSpecialField" GroupName="configs">
                 <StackPanel>
                     <TextBlock>Особливе поле</TextBlock>
-                    <TextBlock Text="Кількість рядків:"/>
+                    <TextBlock Text="Кількість рядків (від 2 до 30):"/>
                     <TextBox IsEnabled="{Binding ElementName=radioButtoSpecialField,Path=IsChecked}" Background="Transparent">
                         <TextBox.Text>
                             <Binding Path="Rows" UpdateSourceTrigger="PropertyChanged">
@@ -88,10 +92,10 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <TextBlock Text="Кількість стовпців:"/>
+                    <TextBlock Text="Кількість стовпців (від 2 до 60):"/>
                     <TextBox IsEnabled="{Binding ElementName=radioButtoSpecialField,Path=IsChecked}" Background="Transparent">
                         <TextBox.Text>
-                            <Binding Path="Rows" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="Cols" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <ExceptionValidationRule />
                                 </Binding.ValidationRules>
@@ -101,7 +105,7 @@
                     <TextBlock Text="Кількість бомб:"/>
                     <TextBox IsEnabled="{Binding ElementName=radioButtoSpecialField,Path=IsChecked}" Background="Transparent">
                         <TextBox.Text>
-                            <Binding Path="Rows" UpdateSourceTrigger="PropertyChanged">
+                            <Binding Path="BombsCount" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <ExceptionValidationRule />
                                 </Binding.ValidationRules>
