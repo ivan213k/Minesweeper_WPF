@@ -30,6 +30,7 @@ namespace Minesweeper_WPF
         private CellToImageConverter cellToImageConverter = new CellToImageConverter();
 
         int unmarkedBombsCount;
+        UserManager userManager = new UserManager();
         public MainWindow()
         {
             InitializeComponent();
@@ -43,7 +44,22 @@ namespace Minesweeper_WPF
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            NewGame();
+            if (userManager.IsAuthorized())
+            {
+                NewGame();
+            }
+            else
+            {
+                AuthorizeWindow authorizeWindow = new AuthorizeWindow();
+                if (authorizeWindow.ShowDialog()==true)
+                {
+                    NewGame();
+                }
+                else
+                {
+                    Close();
+                }
+            }
         }
         private void OnGameWin()
         {

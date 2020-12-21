@@ -1,0 +1,40 @@
+﻿<Window x:Class="Minesweeper_WPF.Views.AuthorizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Minesweeper_WPF.Views"
+        mc:Ignorable="d"
+        Title="Авторизація" WindowStartupLocation="CenterOwner" SizeToContent="Height" ResizeMode="NoResize" Width="320.732">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFA3E096" Offset="0"/>
+                <GradientStop Color="#FF276C59" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="5" Text="Nickname:"></TextBlock>
+                <TextBox Name="UserName" Margin="7 5" Width="200"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="6" Text="Password: "></TextBlock>
+                <PasswordBox Name="Password" Margin="6" Width="200">
+
+                </PasswordBox>
+                
+            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Name="radioButtonAuthorization" Checked="RadioButton_Checked" IsChecked="True" GroupName="authType" HorizontalAlignment="Center" Margin="5" Content="Авторизація"/>
+                <RadioButton Name="radioButtonRegistration" Checked="RadioButton_Checked_1" GroupName="authType" HorizontalAlignment="Center" Margin="5" Grid.Column="1" Content="Реєстрація"/>
+            </Grid>
+            <Button Click="buttonLogin_Click" Name="buttonLogin" Background="DarkBlue" Margin="5" Foreground="White" FontWeight="Bold" Content="Вхід"></Button>
+            <ProgressBar Visibility="Collapsed" Foreground="Blue" Name="ProgressBar" Height="15"></ProgressBar>
+        </StackPanel>
+    </Grid>
+</Window>
