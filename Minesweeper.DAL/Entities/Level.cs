@@ -18,5 +18,10 @@ namespace Minesweeper.DAL.Entities
         public int SizeWidth { get; set; }
 
         public virtual ICollection<Game> Games { get; set; }
+
+        public override string ToString()
+        {
+            return Complexity;
+        }
     }
 }

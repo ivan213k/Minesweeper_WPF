@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Minesweeper.DAL.Entities;
 using Minesweeper_WPF.Core;
 using Minesweeper_WPF.Core.Abstractions;
 using Minesweeper_WPF.Core.Core;
@@ -31,6 +33,8 @@ namespace Minesweeper_WPF
 
         int unmarkedBombsCount;
         UserManager userManager = new UserManager();
+        StatisticManager statisticManager = new StatisticManager();
+        Level currentLevel;
         public MainWindow()
         {
             InitializeComponent();
@@ -42,9 +46,10 @@ namespace Minesweeper_WPF
             timer.Interval = new TimeSpan(0, 0, 1);
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (userManager.IsAuthorized())
+            currentLevel = statisticManager.GetLevels().First();
+            if (await userManager.IsAuthorized())
             {
                 NewGame();
             }
@@ -61,9 +66,13 @@ namespace Minesweeper_WPF
                 }
             }
         }
-        private void OnGameWin()
+        private async void OnGameWin()
         {
             timer.Stop();
+            if (currentLevel!=null)
+            {
+                await statisticManager.AddGame(new TimeSpan(0, 0, time), true, currentLevel.Id);
+            }
             GameOverWindow gameOverWindow = new GameOverWindow();
             gameOverWindow.DataContext = new GameOverViewModel(isGameWin:true);
             if (gameOverWindow.ShowDialog() == true)
@@ -75,10 +84,14 @@ namespace Minesweeper_WPF
                 NewGame();
             }
         }
-        private void OnGameOver(Cell bombedCell)
+        private async void OnGameOver(Cell bombedCell)
         {
             timer.Stop();
             buttonsMatrix[bombedCell.RowIndex, bombedCell.ColumnIndex].Content = cellToImageConverter.ConvertToImage(bombedCell);
+            if (currentLevel != null)
+            {
+                await statisticManager.AddGame(new TimeSpan(0, 0, time), false, currentLevel.Id);
+            }
             GameOverWindow gameOverWindow = new GameOverWindow();
             gameOverWindow.DataContext = new GameOverViewModel();
             if (gameOverWindow.ShowDialog() == true)
@@ -206,7 +219,7 @@ namespace Minesweeper_WPF
             time = 0;
             CountBomb.Text = gameConfiguration.BombsCount.ToString();
             unmarkedBombsCount = gameConfiguration.BombsCount;
-            Game = new Game(gameConfiguration);
+            Game = new Minesweeper_WPF.Core.Core.Game(gameConfiguration);
             Game.OnGameWin += OnGameWin;
             Game.OnGameOver += OnGameOver;
             rows = gameConfiguration.Rows;
@@ -243,6 +256,7 @@ namespace Minesweeper_WPF
             {
                 var vm = settingsWindow.DataContext as SettingsViewModel;
                 gameConfiguration = vm.SelectedConfiguration;
+                currentLevel = statisticManager.GetLevels().Where(r => r.SizeHeight == gameConfiguration.Rows && r.SizeWidth == gameConfiguration.Columns).FirstOrDefault();
                 NewGame();
             }        
         }

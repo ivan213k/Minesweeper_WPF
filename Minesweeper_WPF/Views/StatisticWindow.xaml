@@ -74,7 +74,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid Margin="10" >
-                    <ListView Padding="5" ItemsSource="{Binding Levels}" Background="Transparent">
+                    <ListView Padding="5" SelectedItem="{Binding SelectedLevel}" ItemsSource="{Binding Levels}" Background="Transparent">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
                                 <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -144,7 +144,7 @@
                     <TextBlock FontWeight="Bold" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="2" Text="Відсоток перемог:"/>
                     <TextBox Grid.Column="1" IsReadOnly="True"  Width="40"  Text="{Binding PlayedGamesCount}"/>
                     <TextBox Grid.Row="1" Grid.Column="1"  IsReadOnly="True" Text="{Binding WonGamesCount}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1"  IsReadOnly="True"  Text="{Binding WonGamePercent,Mode=OneWay}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Width="50"  IsReadOnly="True"  Text="{Binding WonGamePercent,Mode=OneWay}"/>
                 </Grid>
             </Grid>
         </Grid>
@@ -153,7 +153,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Margin="10" Content="Reset"></Button>
+            <Button Command="{Binding ResetCommand}" Grid.Column="0" Margin="10" Content="Reset"></Button>
             <Button Name="buttonExit" Click="buttonExit_Click" Grid.Column="1" Margin="10" Content="Вихід"></Button>
         </Grid>
     </Grid>

@@ -117,8 +117,8 @@ namespace Minesweeper.DAL.EF
                 entity.HasOne(d => d.IdInfoNavigation)
                     .WithMany(p => p.Players)
                     .HasForeignKey(d => d.IdInfo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("player_fk0");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    //.HasConstraintName("player_fk0");
             });
 
             OnModelCreatingPartial(modelBuilder);

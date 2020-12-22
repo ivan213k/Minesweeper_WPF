@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.DAL.Repositories
 {
-    class GamesRepository : IRepository<Game>
+    public class GamesRepository : IRepository<Game>
     {
         minesweeperContext dbContext = new minesweeperContext();
 

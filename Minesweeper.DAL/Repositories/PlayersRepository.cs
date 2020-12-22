@@ -8,12 +8,23 @@ using System.Threading.Tasks;
 
 namespace Minesweeper.DAL.Repositories
 {
-    class PlayersRepository : IRepository<Player>
+    public class PlayersRepository : IRepository<Player>
     {
         minesweeperContext dbContext = new minesweeperContext();
 
         public async Task CreateAsync(Player item)
         {
+            int id;
+            if (dbContext.Players.Count()==0)
+            {
+                id = 1;
+            }
+            else
+            {
+                id = dbContext.Players.Select(r => r.Id).Max() + 1;
+            }
+            item.Id = id;
+            item.IdInfo = 0;
             await dbContext.Players.AddAsync(item);
             await dbContext.SaveChangesAsync();
         }
