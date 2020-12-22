@@ -33,7 +33,7 @@ namespace Minesweeper_WPF
 
         int unmarkedBombsCount;
         UserManager userManager = new UserManager();
-        StatisticManager statisticManager = new StatisticManager();
+        StatisticManager statisticManager;
         Level currentLevel;
         public MainWindow()
         {
@@ -47,10 +47,11 @@ namespace Minesweeper_WPF
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            currentLevel = statisticManager.GetLevels().First();
+        {         
             if (await userManager.IsAuthorized())
             {
+                statisticManager = new StatisticManager();
+                currentLevel = statisticManager.GetLevels().First();
                 NewGame();
             }
             else
@@ -58,6 +59,8 @@ namespace Minesweeper_WPF
                 AuthorizeWindow authorizeWindow = new AuthorizeWindow();
                 if (authorizeWindow.ShowDialog()==true)
                 {
+                    statisticManager = new StatisticManager();
+                    currentLevel = statisticManager.GetLevels().First();
                     NewGame();
                 }
                 else
@@ -167,6 +170,12 @@ namespace Minesweeper_WPF
             var cellsShouldBeOpened = Game.OpenCell(point);
             foreach (var cell in cellsShouldBeOpened)
             {
+                if (buttonsMatrix[cell.RowIndex, cell.ColumnIndex].Tag?.ToString()=="marked")
+                {
+                    IncrementUnmarkedBombsCount();
+                    buttonsMatrix[cell.RowIndex, cell.ColumnIndex].Tag = "";
+                    Game.RemoveBombMark(new Point(cell.RowIndex,cell.ColumnIndex));
+                }
                 buttonsMatrix[cell.RowIndex, cell.ColumnIndex].Content = cellToImageConverter.ConvertToImage(cell);
             }
             CountBomb.Text = unmarkedBombsCount.ToString();
